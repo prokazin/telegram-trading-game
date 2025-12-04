@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  trading-bot:
+    build: .
+    container_name: telegram-trading-bot
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+      - ./logs:/app/logs
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - ADMIN_IDS=${ADMIN_IDS}
+      - DATABASE_URL=sqlite:////data/trading_game.db
+    env_file:
+      - .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
